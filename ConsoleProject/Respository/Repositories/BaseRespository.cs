@@ -11,8 +11,10 @@ namespace Respository.Repositories
 {
     public class BaseRespository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        public void Creat(T entity)
+        private static int _id = 1;
+        public void Create(T entity)
         {
+            entity.Id = _id++;
             AppDbContext<T>.Datas.Add(entity);
         }
 
@@ -23,7 +25,7 @@ namespace Respository.Repositories
 
         public void Edit(T entity)
         {
-            throw new NotImplementedException();
+
         }
 
         public List<T> GetAll()
