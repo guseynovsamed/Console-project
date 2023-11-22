@@ -18,7 +18,8 @@ namespace Respository.Repositories
 
         public List<Group> Sort()
         {
-            
+            return AppDbContext<Group>.Datas.OrderBy(n => n.Capacity).ToList();
+
         }
 
 

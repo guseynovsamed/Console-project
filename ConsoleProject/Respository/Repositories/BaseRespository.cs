@@ -25,7 +25,7 @@ namespace Respository.Repositories
 
         public void Edit(T entity)
         {
-
+            throw null;
         }
 
         public List<T> GetAll()

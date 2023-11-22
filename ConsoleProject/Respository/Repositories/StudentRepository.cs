@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Respository.Data;
 using Respository.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,16 @@ using System.Threading.Tasks;
 
 namespace Respository.Repositories
 {
-    public class StudentRepository : BaseRespository<Student> , IStudentRespository
+    public class StudentRepository : BaseRespository<Student>, IStudentRespository
     {
+        public List<Student> Filter()
+        {
+            return AppDbContext<Student>.Datas.OrderBy(n=>n.Age).ToList();
+        }
+
+        public List<Student> Search(string searchText)
+        {
+            return AppDbContext<Student>.Datas.Where(n=>n.FullName==n.FullName).ToList();
+        }
     }
 }

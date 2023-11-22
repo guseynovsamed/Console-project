@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Respository.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,8 @@ namespace Respository.Repositories.Interfaces
 {
     public interface IUserRepository : IBaseRepository<User>
     {
+        bool Login(string email, string password);
+        void Register(User user);
+        
     }
 }

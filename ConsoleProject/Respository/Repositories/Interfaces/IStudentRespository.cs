@@ -9,6 +9,7 @@ namespace Respository.Repositories.Interfaces
 {
     public interface IStudentRespository : IBaseRepository<Student>
     {
-
+        List<Student> Search(string searchText);
+        List<Student> Filter();
     }
 }
