@@ -1,4 +1,5 @@
-﻿using Service.Helpers.Extensions;
+﻿using Domain.Models;
+using Service.Helpers.Extensions;
 using Service.Services;
 using System;
 using System.Collections.Generic;
@@ -19,24 +20,24 @@ namespace ConsoleProject.Controllers
 
         public void Register()
         {
-            Console.WriteLine("Name :");
-            Name: string name = Console.ReadLine();
+            Name: Console.WriteLine("Name :");
+            string name = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(name))
             {
                 ConsoleColor.Red.WriteConsole("Can not be empity");
                 goto Name;
             }
 
-            Console.WriteLine("Surname :");
-            Surname: string surname = Console.ReadLine();
+            Surname: Console.WriteLine("Surname :");
+            string surname = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(surname))
             {
                 ConsoleColor.Red.WriteConsole("Can not be empity");
                 goto Surname;
             }
 
-            Console.WriteLine("Age :");
-            Age: string ageStr = Console.ReadLine();
+            Age: Console.WriteLine("Age :");
+            string ageStr = Console.ReadLine();
             byte age;
             bool IsCorrectFormat = byte.TryParse(ageStr, out age);
             if (IsCorrectFormat is false)
@@ -56,40 +57,86 @@ namespace ConsoleProject.Controllers
                 ConsoleColor.Red.WriteConsole("Can not be empity");
                 goto Email;
             } 
-            else if (!UserExtension.EmailCheck(email))
+            else if (email.EmailCheck() is false)
             {
                 goto Email;
             }
-            
+            else
+            {
+                email.EmailCheck();
+            }
 
-            
-
-            Console.WriteLine("Password");
-            Password: string password = Console.ReadLine();
+            Password: Console.WriteLine("Password :");
+            string password = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(password))
             {
                 ConsoleColor.Red.WriteConsole("Can not be empity");
                 goto Password;
             }
-           
-            
-            
 
-            
+            ConfPassword: Console.WriteLine("Confirm password :");
+            string confPassword =Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(confPassword))
+            {
+                ConsoleColor.Red.WriteConsole("Can not be empity");
+                goto ConfPassword;
+            }
+            else if (password.ConfirmPasswordCheck(confPassword) is false)
+            {
+                goto ConfPassword;
+            }
 
-            
+            User user = new User()
+            {
+                Name = name,
+                Surname = surname,
+                Age = age,
+                Email = email,
+                Password = password,
+            };
+            _userService.Register(user);
 
-           
-    
-
-    
-            
+            ConsoleColor.Green.WriteConsole("Registry Complete");
+        }
 
 
+        public void Login()
+        {
+            Email: Console.WriteLine("Enter Email");
+            string email = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                ConsoleColor.Red.WriteConsole("Can not be empity");
+            }else if (email.EmailCheck() is false)
+            {
+                goto Email;
+            }
+            else
+            {
+                email.EmailCheck();
+            }
 
+            Console.WriteLine("Enter Password");
+            string password = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ConsoleColor.Red.WriteConsole("Can not be empity");
 
+            }
+
+            if (_userService.Login(email,password))
+            {
+                ConsoleColor.Green.WriteConsole("Login Successfull");
+            }
+            else
+            {
+                ConsoleColor.Red.WriteConsole("Incorrect username or password");
+                goto Email;
+
+            }
 
 
         }
+
     }
 }
