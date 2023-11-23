@@ -15,6 +15,6 @@ namespace Service.Services.Interface
         Group GetById(int id);
         List<Group> GetAll();
         List<Group> Search(string searchText);
-        List<Group> Sort();
+        List<Group> Sorting(string text);
     }
 }

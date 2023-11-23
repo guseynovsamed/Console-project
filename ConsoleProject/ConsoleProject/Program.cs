@@ -6,17 +6,34 @@ using ConsoleProject.Controllers;
 
 UserController userController = new UserController();
 
+GroupController groupController = new GroupController();
+
+
 while (true)
 {
-    string operation = Console.ReadLine();
+	string inte = Console.ReadLine();
 
-	switch (operation)
+	switch (inte)
 	{
 		case "1":
-			userController.Register();
+			groupController.Create();
 			break;
 		case "2":
-			userController.Login();
+			groupController.Delete(); 
 			break;
+		case "3":
+			groupController.GetById();
+			break;
+		case "4":
+			groupController.GetAll();
+			break;
+		case "5":
+			groupController.Search();
+			break;
+		case "6":
+			groupController.Sorting();
+			break;
+
+
 	}
 }

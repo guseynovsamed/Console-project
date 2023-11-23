@@ -1,18 +1,12 @@
 ﻿using Domain.Models;
 using Service.Helpers.Extensions;
 using Service.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Cache;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleProject.Controllers
 {
     public class UserController
     {
-        private UserService _userService;
+        private readonly UserService _userService;
         public UserController()
         {
             _userService = new UserService();
@@ -38,6 +32,11 @@ namespace ConsoleProject.Controllers
 
             Age: Console.WriteLine("Age :");
             string ageStr = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(ageStr))
+            {
+                ConsoleColor.Red.WriteConsole("Can not be empity");
+                goto Age;
+            }
             byte age;
             bool IsCorrectFormat = byte.TryParse(ageStr, out age);
             if (IsCorrectFormat is false)
@@ -45,10 +44,7 @@ namespace ConsoleProject.Controllers
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Age;
             }
-            if (string.IsNullOrWhiteSpace(ageStr))
-            {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
-            }
+           
 
             Email: Console.WriteLine("Email :");
             string email = Console.ReadLine();
@@ -94,12 +90,10 @@ namespace ConsoleProject.Controllers
                 Email = email,
                 Password = password,
             };
-            _userService.Register(user);
 
+            _userService.Register(user);
             ConsoleColor.Green.WriteConsole("Registry Complete");
         }
-
-
         public void Login()
         {
             Email: Console.WriteLine("Enter Email");

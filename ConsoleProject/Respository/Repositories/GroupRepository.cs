@@ -16,13 +16,13 @@ namespace Respository.Repositories
             return AppDbContext<Group>.Datas.Where(n => n.Name.Contains(searchText)).ToList();
         }
 
-        public List<Group> Sort()
+        public List<Group> Sorting(string text)
         {
+            if (text=="desc")
+            {
+                return AppDbContext<Group>.Datas.OrderByDescending(n => n.Capacity).ToList();
+            }
             return AppDbContext<Group>.Datas.OrderBy(n => n.Capacity).ToList();
-
         }
-
-
     } 
-
 }

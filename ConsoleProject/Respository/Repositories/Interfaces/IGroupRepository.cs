@@ -6,7 +6,7 @@ namespace Respository.Repositories.Interfaces
     public  interface IGroupRepository : IBaseRepository<Group>
     {
         List<Group> Search(string searchText);
-        List<Group> Sort();
+        List<Group> Sorting(string text);
         
     }
 }

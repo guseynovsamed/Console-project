@@ -49,9 +49,9 @@ namespace Service.Services
             return _groupRepo.Search(searchText);
         }
 
-        public List<Group> Sort()
+        public List<Group> Sorting(string text)
         {
-            return _groupRepo.Sort();
+            return _groupRepo.Sorting(text);
         }
     }
 }
