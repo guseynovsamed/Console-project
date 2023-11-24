@@ -18,6 +18,9 @@ namespace Service.Helpers.Extensions
         {
             return AppDbContext<Group>.Datas.Exists(n => n.Name ==name.ToLower().Trim());
         }
-
+        public static bool CheckGroup(this int groupId)
+        {
+            return AppDbContext<Student>.Datas.Exists(n => n.Id == groupId);
+        }
     }
 }

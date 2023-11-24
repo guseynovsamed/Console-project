@@ -55,12 +55,10 @@ namespace ConsoleProject.Controllers
             } 
             else if (email.EmailCheck() is false)
             {
+                ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Email;
             }
-            else
-            {
-                email.EmailCheck();
-            }
+          
 
             Password: Console.WriteLine("Password :");
             string password = Console.ReadLine();
@@ -70,16 +68,16 @@ namespace ConsoleProject.Controllers
                 goto Password;
             }
 
-            ConfPassword: Console.WriteLine("Confirm password :");
+            Console.WriteLine("Confirm password :");
             string confPassword =Console.ReadLine();
             if (string.IsNullOrWhiteSpace(confPassword))
             {
                 ConsoleColor.Red.WriteConsole("Can not be empity");
-                goto ConfPassword;
+                goto Password;
             }
             else if (password.ConfirmPasswordCheck(confPassword) is false)
             {
-                goto ConfPassword;
+                goto Password;
             }
 
             User user = new User()
@@ -126,8 +124,6 @@ namespace ConsoleProject.Controllers
                 ConsoleColor.Red.WriteConsole("Incorrect username or password");
                 goto Email;
             }
-
-
         }
 
     }

@@ -12,7 +12,7 @@ namespace Respository.Repositories.Interfaces
         void Create(T entity);
         void Edit (T entity);
         void Delete (T entity);
-        T GetById (int id);
+        T? GetById (int id);
         List<T> GetAll();
     }
 }

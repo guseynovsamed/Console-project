@@ -39,7 +39,7 @@ namespace Service.Services
             return _groupRepo.GetAll();
         }
 
-        public Group GetById(int id)
+        public Group? GetById(int id)
         {
             return _groupRepo.GetById(id);
         }

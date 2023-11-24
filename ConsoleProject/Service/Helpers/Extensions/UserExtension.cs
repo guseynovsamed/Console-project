@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Service.Helpers.Extensions
@@ -23,12 +24,8 @@ namespace Service.Helpers.Extensions
         
         public static bool EmailCheck(this string email)
         {
-            if (email.Contains("@") is false)
-            {
-                ConsoleColor.Red.WriteConsole("Email format is wrong");
-                return false;
-            }
-            return true;
+            string regPat = (@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            return Regex.IsMatch(email, regPat);
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace ConsoleProject.Controllers
 {
@@ -19,7 +20,7 @@ namespace ConsoleProject.Controllers
         {
             _studentService = new StudentService();
         }
-        public void Create()
+        public Student Create()
         {
             Name: Console.WriteLine("Enter student name and surname :");
             string fullName = Console.ReadLine();
@@ -41,12 +42,12 @@ namespace ConsoleProject.Controllers
             string ageStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(ageStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Age;
             }
             byte age;
             bool IsCorrectFormat = byte.TryParse(ageStr, out age);
-            if (IsCorrectFormat is false)
+            if (!IsCorrectFormat)
             {
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Age;
@@ -58,65 +59,32 @@ namespace ConsoleProject.Controllers
             {
                 ConsoleColor.Red.WriteConsole("Can not be empity");
                 goto Phone;
-            }else if (phone.CheckPhone())
-            {
-                Console.WriteLine("duz");
-                phone.CheckPhone();
             }
-            else
+            else if (!phone.CheckPhone())
             {
-                Console.WriteLine("Phone format is invalid.Please check number and try again");
+                ConsoleColor.Red.WriteConsole("Phone format is invalid.Please check number and try again");
                 goto Phone;
             }
 
-            Id: Console.WriteLine("Enter the group Id of the student you want to add");
-            string groupStr = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(groupStr))
-            {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
-                goto Id;
-            }
-            int group;
-            bool IsCorrectFormate = int.TryParse(groupStr, out group);
-            if (IsCorrectFormat is false)
-            {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
-                goto Id;
-            }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
             Student student = new Student()
             {
                 FullName = fullName,
                 Address = address,
                 Age = age,
                 Phone = phone,
-                Group = 
             };
 
             _studentService.Create(student);
+            return student;
         }
 
         public void Delete()
         {
-            var groups = _studentService.GetAll();
-            foreach (var item in groups)
+            var students = _studentService.GetAll();
+            foreach (var item in students)
             {
                 Console.WriteLine(item.Id + " " + item.FullName + " " + item.Age+" "+item.Address+" "+item.Phone+" "+item.Group);
             }
@@ -135,9 +103,9 @@ namespace ConsoleProject.Controllers
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Delete;
             }
-            var group = groups.FirstOrDefault(n => n.Id == id);
+            var student = students.FirstOrDefault(n => n.Id == id);
 
-            _studentService.Delete(group);
+            _studentService.Delete(student);
         }
         public void Edit()
         {

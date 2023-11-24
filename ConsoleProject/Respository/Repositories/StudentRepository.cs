@@ -11,6 +11,7 @@ namespace Respository.Repositories
 {
     public class StudentRepository : BaseRespository<Student>, IStudentRespository
     {
+
         public List<Student> Filter()
         {
             return AppDbContext<Student>.Datas.OrderBy(n=>n.Age).ToList();

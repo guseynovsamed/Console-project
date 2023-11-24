@@ -12,7 +12,7 @@ namespace Service.Services.Interface
         void Create(Group group);
         void Edit(Group group);
         void Delete(Group group);
-        Group GetById(int id);
+        Group? GetById(int id);
         List<Group> GetAll();
         List<Group> Search(string searchText);
         List<Group> Sorting(string text);

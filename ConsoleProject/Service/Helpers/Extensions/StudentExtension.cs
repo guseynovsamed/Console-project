@@ -11,7 +11,7 @@ namespace Service.Helpers.Extensions
     {
         public static bool CheckPhone(this string number)
         {
-            string regPat= "^[+]{1}(?:[0-9\\-\\(\\)\\/\\.]\\s?){6, 15}[0-9]{1}$";
+            string regPat = (@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}");
 
             if (number != null)
             {

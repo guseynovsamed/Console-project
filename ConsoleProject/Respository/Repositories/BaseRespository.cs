@@ -33,7 +33,7 @@ namespace Respository.Repositories
             return AppDbContext<T>.Datas.ToList();
         }
 
-        public T GetById(int id)
+        public T? GetById(int id)
         {
             return AppDbContext<T>.Datas.FirstOrDefault(n => n.Id == id);
         }
