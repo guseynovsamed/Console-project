@@ -115,7 +115,6 @@ namespace ConsoleProject.Controllers
             if (string.IsNullOrWhiteSpace(password))
             {
                 ConsoleColor.Red.WriteConsole("Can not be empity");
-
             }
 
             if (_userService.Login(email,password))
@@ -126,7 +125,6 @@ namespace ConsoleProject.Controllers
             {
                 ConsoleColor.Red.WriteConsole("Incorrect username or password");
                 goto Email;
-
             }
 
 

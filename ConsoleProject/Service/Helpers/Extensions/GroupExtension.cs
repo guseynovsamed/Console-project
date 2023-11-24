@@ -4,6 +4,7 @@ using Service.Services;
 using Service.Services.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Service.Helpers.Extensions
     {
         public static bool RepetitionName(this string name)
         {
-            return AppDbContext<Group>.Datas.Exists(n => n.Name == name);
+            return AppDbContext<Group>.Datas.Exists(n => n.Name ==name.ToLower().Trim());
         }
 
     }

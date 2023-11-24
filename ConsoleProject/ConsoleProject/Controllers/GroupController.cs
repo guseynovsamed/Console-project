@@ -84,8 +84,6 @@ namespace ConsoleProject.Controllers
 
             _groupService.Delete(group);
         }
-
-
         public void Edit()
         {
 
