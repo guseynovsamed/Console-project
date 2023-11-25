@@ -15,6 +15,6 @@ namespace Service.Services.Interface
         Student GetById(int id);
         List<Student> GetAll();
         List<Student> Search(string searchText);
-        List<Student> Filter();
+        List<Student> Filter(string text);
     }
 }

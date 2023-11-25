@@ -12,9 +12,13 @@ namespace Respository.Repositories
     public class StudentRepository : BaseRespository<Student>, IStudentRespository
     {
 
-        public List<Student> Filter()
+        public List<Student> Filter(string text)
         {
-            return AppDbContext<Student>.Datas.OrderBy(n=>n.Age).ToList();
+            if (text == "desc")
+            {
+                return AppDbContext<Student>.Datas.OrderByDescending(n => n.Age).ToList();
+            }
+            return AppDbContext<Student>.Datas.OrderBy(n => n.Age).ToList();
         }
 
         public List<Student> Search(string searchText)

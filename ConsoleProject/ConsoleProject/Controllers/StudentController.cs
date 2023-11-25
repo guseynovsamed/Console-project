@@ -16,17 +16,19 @@ namespace ConsoleProject.Controllers
     public class StudentController
     {
         private readonly StudentService _studentService;
+        private readonly GroupService _groupService;
         public StudentController()
         {
             _studentService = new StudentService();
+            _groupService = new GroupService();
         }
-        public Student Create()
+        public void Create()
         {
             Name: Console.WriteLine("Enter student name and surname :");
             string fullName = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(fullName))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Name;
             }
 
@@ -34,7 +36,7 @@ namespace ConsoleProject.Controllers
             string address = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(address))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Address;
             }
 
@@ -47,7 +49,7 @@ namespace ConsoleProject.Controllers
             }
             byte age;
             bool IsCorrectFormat = byte.TryParse(ageStr, out age);
-            if (!IsCorrectFormat)
+            if (IsCorrectFormat is false)
             {
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Age;
@@ -57,28 +59,45 @@ namespace ConsoleProject.Controllers
             string phone = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(phone))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Phone;
             }
-            else if (!phone.CheckPhone())
+            else if (phone.CheckPhone() is false)
             {
                 ConsoleColor.Red.WriteConsole("Phone format is invalid.Please check number and try again");
                 goto Phone;
             }
 
-
-
-            
+            Group: Console.WriteLine("Enter qroup Id to change student group");
+            string groupStr = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(groupStr))
+            {
+                ConsoleColor.Red.WriteConsole("Can not be empty");
+                goto Group;
+            }
+            int id;
+            bool IsCorrectiDFormat = int.TryParse(groupStr, out id);
+            if (IsCorrectiDFormat is false)
+            {
+                ConsoleColor.Red.WriteConsole("Format is wrong");
+                goto Group;
+            }
+            var group =_groupService.GetById(id);
+            if (group is null)
+            {
+                Console.WriteLine("Group not found");
+                goto Group;
+            }
             Student student = new Student()
             {
                 FullName = fullName,
                 Address = address,
                 Age = age,
                 Phone = phone,
+                Group= group,
             };
 
             _studentService.Create(student);
-            return student;
         }
 
         public void Delete()
@@ -93,7 +112,7 @@ namespace ConsoleProject.Controllers
             string idStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(idStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Delete;
             }
             int id;
@@ -118,7 +137,7 @@ namespace ConsoleProject.Controllers
             string idStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(idStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Print;
             }
             int id;
@@ -147,7 +166,7 @@ namespace ConsoleProject.Controllers
             string text = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(text))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Print;
             }
             var result = _studentService.Search(text);
@@ -158,23 +177,25 @@ namespace ConsoleProject.Controllers
             }
         }
 
-        public void Sorting()
+        public void Filter()
         {
-            Text: Console.WriteLine("Enter search text:(asc/desc)");
+            Searchtext: Console.WriteLine("Enter search text:(asc/desc)");
             string searchText = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
-                goto Text;
+                ConsoleColor.Red.WriteConsole("Can not be empty");
+                goto Searchtext;
             }
-            var res = _studentService.Filter();
+            if (searchText != "asc" || searchText != "desc")
+            {
+                ConsoleColor.Red.WriteConsole("Text in wrong please check and enter again");
+                goto Searchtext;
+            }
+            var res = _studentService.Filter(searchText);
             foreach (var item in res)
             {
                 Console.WriteLine(item.Id + " " + item.FullName + " " + item.Age + " " + item.Address + " " + item.Phone + " " + item.Group);
             }
         }
-
-
-
     }
 }

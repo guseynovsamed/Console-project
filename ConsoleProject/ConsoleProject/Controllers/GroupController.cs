@@ -11,6 +11,7 @@ namespace ConsoleProject.Controllers
         public GroupController()
         {
             _groupService = new GroupService();
+
         }
         public void Create()
         {
@@ -210,10 +211,10 @@ namespace ConsoleProject.Controllers
             string searchText = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Searchtext;
             }
-            if (searchText != "asc"  || searchText != "desc")
+            if (searchText != "asc"  && searchText != "desc")
             {
                 ConsoleColor.Red.WriteConsole("Text in wrong please check and enter again");
                 goto Searchtext;

@@ -103,10 +103,7 @@ namespace ConsoleProject.Controllers
             {
                 goto Email;
             }
-            else
-            {
-                email.EmailCheck();
-            }
+            
 
             Console.WriteLine("Enter Password");
             string password = Console.ReadLine();

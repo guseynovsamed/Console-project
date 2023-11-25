@@ -16,30 +16,30 @@ while (true)
 	switch (inte)
 	{
 		case "1":
-			userController.Register();
+			groupController.Create();
 			break;
 		case "2":
-			userController.Login();
+			groupController.Delete();
 			break;
-		//case "3":
-		//	groupController.GetById();
-		//	break;
-		//case "4":
-		//	groupController.GetAll();
-		//	break;
-		//case "5":
-		//	groupController.Search();
-		//	break;
-  //      case "6":
-  //          groupController.Sorting();
-  //          break;
-  //      case "7":
-  //          groupController.Edit();
-  //          break;
+		case "3":
+			groupController.GetById();
+			break;
+		case "4":
+			groupController.GetAll();
+			break;
+		case "5":
+			groupController.Search();
+			break;
+		case "6":
+			groupController.Sorting();
+			break;
+		case "7":
+			groupController.Edit();
+			break;
 
-    }
+	}
 }
-///
+
 
 
 
@@ -51,21 +51,24 @@ while (true)
 //	switch (inte)
 //	{
 //		case "1":
-//			Student student = studentController.Create();
-//			groupController.AddStudentToGroup(student);
+//			studentController.Create();
 //			break;
 //		case "2":
 //			studentController.Delete();
 //			break;
 //		case "3":
-//			studentController.GetAll();
 //			break;
 //		case "4":
-//			studentController.Search();
-//			break;
+//            studentController.GetById();
+//            break;
 //		case "5":
+//			studentController.GetAll();
 //			break;
 //		case "6":
+//			studentController.Search();
+//			break;
+//		case "7":
+//			studentController.Filter();
 //			break;
 
 //	}

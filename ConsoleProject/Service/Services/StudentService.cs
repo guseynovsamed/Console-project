@@ -32,9 +32,9 @@ namespace Service.Services
             throw new NotImplementedException();
         }
 
-        public List<Student> Filter()
+        public List<Student> Filter(string text)
         {
-            return _studentRepo.Filter();
+            return _studentRepo.Filter(text);
         }
 
         public List<Student> GetAll()
