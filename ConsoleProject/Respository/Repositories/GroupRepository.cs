@@ -19,12 +19,7 @@ namespace Respository.Repositories
 
             return group;
         }
-
-        public bool GetIsExistByName(string name)
-        {
-            return AppDbContext<Group>.Datas.Exists(group => group.Name == name);
-        }
-
+        
         public List<Group> Search(string searchText)
         {
             return AppDbContext<Group>.Datas.Where(n => n.Name.Trim().ToLower().Contains(searchText.ToLower().Trim())).ToList();

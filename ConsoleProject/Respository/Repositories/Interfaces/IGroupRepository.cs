@@ -8,6 +8,5 @@ namespace Respository.Repositories.Interfaces
         List<Group> Search(string searchText);
         List<Group> Sorting(string text);
         Group Edit (int id, string newName, int newCapacity);
-        bool GetIsExistByName(string name);
     }
 }

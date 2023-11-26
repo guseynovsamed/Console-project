@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Respository.Data;
+using Service.Helpers.Constants;
 using Service.Helpers.Extensions;
 using Service.Services;
 using Service.Services.Interface;
@@ -37,7 +38,7 @@ namespace ConsoleProject.Controllers
             string fullName = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(fullName))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Name;
             }
 
@@ -45,7 +46,7 @@ namespace ConsoleProject.Controllers
             string address = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(address))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Address;
             }
 
@@ -53,14 +54,14 @@ namespace ConsoleProject.Controllers
             string ageStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(ageStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Age;
             }
             byte age;
             bool IsCorrectFormat = byte.TryParse(ageStr, out age);
             if (IsCorrectFormat is false)
             {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
                 goto Age;
             }
             if (age <= 18)
@@ -77,7 +78,7 @@ namespace ConsoleProject.Controllers
             string phone = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(phone))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Phone;
             }
             else if (phone.CheckPhone() is false)
@@ -90,14 +91,14 @@ namespace ConsoleProject.Controllers
             string groupStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(groupStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Group;
             }
             int id;
             bool IsCorrectiDFormat = int.TryParse(groupStr, out id);
             if (IsCorrectiDFormat is false)
             {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
                 goto Group;
             }
             var group = _groupService.GetById(id);
@@ -116,6 +117,7 @@ namespace ConsoleProject.Controllers
             };
 
             _studentService.Create(student);
+            ConsoleColor.Green.WriteConsole("Created success");
         }
 
         public void Delete()
@@ -130,14 +132,14 @@ namespace ConsoleProject.Controllers
             string idStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(idStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Delete;
             }
             int id;
             bool IsCorrectFormat = int.TryParse(idStr, out id);
             if (IsCorrectFormat is false)
             {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
                 goto Delete;
             }
             var student = students.FirstOrDefault(n => n.Id == id);
@@ -148,6 +150,7 @@ namespace ConsoleProject.Controllers
             }
 
             _studentService.Delete(student);
+            ConsoleColor.Green.WriteConsole("Delete success");
         }
         public void Edit()
         {
@@ -157,7 +160,7 @@ namespace ConsoleProject.Controllers
             bool isIdCorrectFormat = int.TryParse(idStr, out id);
             if (isIdCorrectFormat is false)
             {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
                 goto Edit;
             }
             Student student = _studentService.GetById(id);
@@ -191,7 +194,7 @@ namespace ConsoleProject.Controllers
             bool IsAgeCorrectFormat = byte.TryParse(ageStr, out age);
             if (IsAgeCorrectFormat is false)
             {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
                 goto Age;
             }
 
@@ -200,6 +203,11 @@ namespace ConsoleProject.Controllers
             if (string.IsNullOrWhiteSpace(phone))
             {
                 phone = student.Phone;
+            }
+            if(phone.CheckPhone()is false)
+            {
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
+                goto Phone;
             }
 
             var res = _groupService.GetAll();
@@ -219,13 +227,13 @@ namespace ConsoleProject.Controllers
             bool IsGroupIdCorrectFormat = int.TryParse(groupStr, out groupId);
             if (IsGroupIdCorrectFormat is false)
             {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
                 goto GroupId;
             }
             Group? group = _groupService.GetById(groupId);
             if (group is null)
             {
-                ConsoleColor.Red.WriteConsole("Group not found");
+                ConsoleColor.Red.WriteConsole(BaseNotification.DataNotFound);
                 return;
             }
 
@@ -239,14 +247,14 @@ namespace ConsoleProject.Controllers
             string idStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(idStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Print;
             }
             int id;
             bool IsCorrectFormat = int.TryParse(idStr, out id);
             if (IsCorrectFormat is false)
             {
-                ConsoleColor.Red.WriteConsole("Format is wrong");
+                ConsoleColor.Red.WriteConsole(BaseNotification.FormatWrong);
                 goto Print;
             }
             var result = _studentService.GetById(id);
@@ -273,13 +281,13 @@ namespace ConsoleProject.Controllers
             string text = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(text))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Print;
             }
             var result = _studentService.Search(text.ToLower().Trim());
-            if (result is null )
+            if (result.Count()==0)
             {
-                ConsoleColor.Red.WriteConsole("Data not found");
+                ConsoleColor.Red.WriteConsole(BaseNotification.DataNotFound);
                 goto Print;
             }
 
@@ -295,7 +303,7 @@ namespace ConsoleProject.Controllers
             string searchText = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empty");
+                ConsoleColor.Red.WriteConsole(BaseNotification.InputEmptyMessage);
                 goto Searchtext;
             }
             if (searchText != "asc" && searchText != "desc")

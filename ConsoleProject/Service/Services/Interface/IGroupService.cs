@@ -13,7 +13,6 @@ namespace Service.Services.Interface
         Group Edit(int id, string newName, int Capacity);
         void Delete(Group group);
         Group? GetById(int id);
-        bool GetIsExistByName(string name);
         List<Group> GetAll();
         List<Group> Search(string searchText);
         List<Group> Sorting(string text);

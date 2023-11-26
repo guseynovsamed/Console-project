@@ -10,9 +10,9 @@ UserController userController = new UserController();
 GroupController groupController = new GroupController();
 StudentController studentController = new StudentController();
 
-while (!true)
+while (true)
 {
-    Back: Console.WriteLine("Choose one option : \n1-Register  \n2-Login ");
+    ConsoleColor.DarkYellow.WriteConsole("Choose one option : \n1-Register  \n2-Login ");
     string operationStr = Console.ReadLine();
     bool isFormatOperation = int.TryParse(operationStr, out int oparation);
 
@@ -22,8 +22,8 @@ while (!true)
             userController.Register();
             break;
         case (int)UserOperationType.Login:
-            bool isLoggedIn = userController.Login();
-            if (isLoggedIn)
+            bool isLogin = userController.Login();
+            if (isLogin)
             {
                 goto Next;
             }

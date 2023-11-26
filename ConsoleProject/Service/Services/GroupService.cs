@@ -44,11 +44,6 @@ namespace Service.Services
             return _groupRepo.GetById(id);
         }
 
-        public bool GetIsExistByName(string name)
-        {
-            return _groupRepo.GetIsExistByName(name);
-        }
-
         public List<Group> Search(string searchText)
         {
             return _groupRepo.Search(searchText);
