@@ -10,7 +10,7 @@ namespace Service.Services.Interface
     public interface IStudentService
     {
         void Create(Student student);
-        void Edit(Student student);
+        Student Edit(int id, string fullName, string address, byte age, string phone, int groupId);
         void Delete(Student student);
         Student GetById(int id);
         List<Student> GetAll();

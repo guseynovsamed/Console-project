@@ -11,6 +11,17 @@ namespace Respository.Repositories
 {
     public class StudentRepository : BaseRespository<Student>, IStudentRespository
     {
+        public Student Edit(int id ,string fullName, string address, byte age, string phone, int groupId )
+        {
+            Student? student = AppDbContext<Student>.Datas.FirstOrDefault(n => n.Id == id);
+            student.FullName = fullName;
+            student.Address = address;
+            student.Age = age;
+            student.Phone = phone;
+            student.Group = AppDbContext<Group>.Datas.FirstOrDefault(group=> group.Id == groupId);
+
+            return student;
+        }
 
         public List<Student> Filter(string text)
         {
@@ -23,7 +34,7 @@ namespace Respository.Repositories
 
         public List<Student> Search(string searchText)
         {
-            return AppDbContext<Student>.Datas.Where(n=>n.FullName==n.FullName).ToList();
+            return AppDbContext<Student>.Datas.Where(n=>n.FullName.ToLower().Trim().Contains(searchText.ToLower().Trim())).ToList();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Service.Helpers.Extensions
     {
         public static bool RepetitionName(this string name)
         {
-            return AppDbContext<Group>.Datas.Exists(n => n.Name ==name.ToLower().Trim());
+            return AppDbContext<Group>.Datas.Exists(n => n.Name.ToLower().Trim() == name.ToLower().Trim());
         }
         public static bool CheckGroup(this int groupId)
         {

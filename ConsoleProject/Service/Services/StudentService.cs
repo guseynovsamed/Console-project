@@ -27,9 +27,9 @@ namespace Service.Services
             _studentRepo.Delete(student);
         }
 
-        public void Edit(Student student)
+        public Student Edit(int id, string fullName, string address, byte age, string phone, int groupId)
         {
-            throw new NotImplementedException();
+            return _studentRepo.Edit(id, fullName, address, age, phone, groupId);
         }
 
         public List<Student> Filter(string text)

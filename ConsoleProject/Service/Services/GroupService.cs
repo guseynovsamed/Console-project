@@ -29,9 +29,9 @@ namespace Service.Services
             _groupRepo.Delete(group);
         }
 
-        public void Edit(Group group)
+        public Group Edit(int id, string newName, int newCapacity)
         {
-            throw new NotImplementedException();
+            return _groupRepo.Edit(id, newName, newCapacity);
         }
 
         public List<Group> GetAll()
@@ -44,6 +44,11 @@ namespace Service.Services
             return _groupRepo.GetById(id);
         }
 
+        public bool GetIsExistByName(string name)
+        {
+            return _groupRepo.GetIsExistByName(name);
+        }
+
         public List<Group> Search(string searchText)
         {
             return _groupRepo.Search(searchText);
@@ -53,5 +58,7 @@ namespace Service.Services
         {
             return _groupRepo.Sorting(text);
         }
+
+       
     }
 }

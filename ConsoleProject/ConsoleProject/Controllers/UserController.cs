@@ -1,12 +1,13 @@
 ﻿using Domain.Models;
 using Service.Helpers.Extensions;
 using Service.Services;
+using Service.Services.Interface;
 
 namespace ConsoleProject.Controllers
 {
     public class UserController
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         public UserController()
         {
             _userService = new UserService();
@@ -18,7 +19,7 @@ namespace ConsoleProject.Controllers
             string name = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(name))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Name;
             }
 
@@ -26,15 +27,15 @@ namespace ConsoleProject.Controllers
             string surname = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(surname))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Surname;
             }
 
-            Age: Console.WriteLine("Age :");
+            Age: Console.WriteLine("Enter student age");
             string ageStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(ageStr))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Age;
             }
             byte age;
@@ -44,13 +45,22 @@ namespace ConsoleProject.Controllers
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Age;
             }
-           
+            if (age <= 18)
+            {
+                ConsoleColor.Red.WriteConsole("Registration age must be min 18");
+                goto Age;
+            }
+            else if (age > 100)
+            {
+                ConsoleColor.Red.WriteConsole("Registration age must be maximum 100");
+                goto Age;
+            }
 
             Email: Console.WriteLine("Email :");
             string email = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(email))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Email;
             } 
             else if (email.EmailCheck() is false)
@@ -58,13 +68,12 @@ namespace ConsoleProject.Controllers
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Email;
             }
-          
 
             Password: Console.WriteLine("Password :");
             string password = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(password))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Password;
             }
 
@@ -72,7 +81,7 @@ namespace ConsoleProject.Controllers
             string confPassword =Console.ReadLine();
             if (string.IsNullOrWhiteSpace(confPassword))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Password;
             }
             else if (password.ConfirmPasswordCheck(confPassword) is false)
@@ -92,15 +101,18 @@ namespace ConsoleProject.Controllers
             _userService.Register(user);
             ConsoleColor.Green.WriteConsole("Registry Complete");
         }
-        public void Login()
+        public bool Login()
         {
             Email: Console.WriteLine("Enter Email");
             string email = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(email))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
-            }else if (email.EmailCheck() is false)
+                ConsoleColor.Red.WriteConsole("Can not be empty");
+                goto Email;
+            }
+            else if (email.EmailCheck() is false)
             {
+                ConsoleColor.Red.WriteConsole("Email format is wrong");
                 goto Email;
             }
             
@@ -109,18 +121,18 @@ namespace ConsoleProject.Controllers
             string password = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(password))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
+                goto Email;
             }
 
             if (_userService.Login(email,password))
             {
                 ConsoleColor.Green.WriteConsole("Login Successfull");
+                return true;
             }
-            else
-            {
-                ConsoleColor.Red.WriteConsole("Incorrect username or password");
-                goto Email;
-            }
+
+            ConsoleColor.Red.WriteConsole("Email or password is wrong!");
+            return false;
         }
 
     }

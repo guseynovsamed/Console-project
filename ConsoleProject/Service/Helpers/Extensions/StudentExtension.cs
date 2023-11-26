@@ -13,7 +13,7 @@ namespace Service.Helpers.Extensions
         {
             string regPat = (@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}");
 
-            if (number != null)
+            if (number is not null)
             {
                 return Regex.IsMatch(number, regPat);
             }

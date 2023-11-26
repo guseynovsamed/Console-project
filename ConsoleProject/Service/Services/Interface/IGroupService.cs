@@ -10,9 +10,10 @@ namespace Service.Services.Interface
     public  interface IGroupService
     {
         void Create(Group group);
-        void Edit(Group group);
+        Group Edit(int id, string newName, int Capacity);
         void Delete(Group group);
         Group? GetById(int id);
+        bool GetIsExistByName(string name);
         List<Group> GetAll();
         List<Group> Search(string searchText);
         List<Group> Sorting(string text);

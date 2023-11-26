@@ -2,6 +2,7 @@
 using Respository.Data;
 using Service.Helpers.Extensions;
 using Service.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace ConsoleProject.Controllers
 {
@@ -21,12 +22,12 @@ namespace ConsoleProject.Controllers
             {
                 ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Name;
-            } else if (name.RepetitionName())
+            }
+            else if (name.RepetitionName())
             {
                 ConsoleColor.Red.WriteConsole("Duplicate name exists on the network");
                 goto Name;
             }
-            
 
             Capacity: Console.WriteLine("Enter group capacity");
             string capacityStr = Console.ReadLine();
@@ -54,6 +55,7 @@ namespace ConsoleProject.Controllers
                 Capacity = capacity,
             };
             _groupService.Create(group);
+            ConsoleColor.Green.WriteConsole("Group create success");
         }
 
         public void Delete()
@@ -72,85 +74,85 @@ namespace ConsoleProject.Controllers
                 goto Delete;
             }
             int id;
-            bool IsCorrectFormat = int.TryParse(idStr , out id );
+            bool IsCorrectFormat = int.TryParse(idStr, out id);
             if (IsCorrectFormat is false)
             {
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Delete;
             }
             Group? group = _groupService.GetById(id);
+            if (group == null)
+            {
+                ConsoleColor.Red.WriteConsole("Data not found");
+                goto Delete;
+            }
 
             _groupService.Delete(group);
         }
         public void Edit()
         {
-            Edit: Console.WriteLine("Enter Id for edit the group");
-            GetAll();
+            EditLabel: Console.WriteLine("Enter Id for print the group");
             string idStr = Console.ReadLine();
-
             if (string.IsNullOrWhiteSpace(idStr))
             {
                 ConsoleColor.Red.WriteConsole("Can not be empty");
-                goto Edit;
             }
             int id;
-            bool IsCorrectFormat = int.TryParse(idStr, out id);
-            if (IsCorrectFormat is false)
+            bool isIdCorrectFormat = int.TryParse(idStr, out id);
+            if (isIdCorrectFormat is false)
             {
                 ConsoleColor.Red.WriteConsole("Format is wrong");
-                goto Edit;
+                goto EditLabel;
             }
             Group? group = _groupService.GetById(id);
-
             if (group is null)
             {
                 ConsoleColor.Red.WriteConsole("Group not found");
-                goto Edit;
+                return;
             }
 
-            Editname: Console.WriteLine("Enter for group new name :");
+            Name: Console.WriteLine("Enter group name :");
             string name = Console.ReadLine();
-
             if (string.IsNullOrWhiteSpace(name))
             {
+                name = group.Name;
                 goto Capacity;
             }
-            foreach (var item in _groupService.GetAll())
+            if (_groupService.GetIsExistByName(name))
             {
-                if(item.Name == name)
-                {
-                    ConsoleColor.Red.WriteConsole("Duplicate name exists on the network");
-                    goto Editname;
-                }
+                ConsoleColor.Red.WriteConsole("Duplicate name exists on the network");
+                goto Name;
             }
-            group.Name = name;
 
-            Capacity: Console.WriteLine("Enter for group new capacity");
+            Capacity: Console.WriteLine("Enter group capacity");
             string capacityStr = Console.ReadLine();
+            int capacity;
             if (string.IsNullOrWhiteSpace(capacityStr))
             {
-                goto EditCompleted;
+                capacity = group.Capacity;
+                goto EditEndLabel;
+                ;
             }
-            int capacity;
             bool isCapacityCorrectFormat = int.TryParse(capacityStr, out capacity);
             if (isCapacityCorrectFormat is false)
             {
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Capacity;
-            }else if (capacity <= 0)
+            }
+            if (capacity < 0)
             {
                 ConsoleColor.Red.WriteConsole("Capacity cannot be negative");
                 goto Capacity;
             }
-            group.Capacity= capacity;
 
-            EditCompleted: ConsoleColor.Green.WriteConsole("Group updated successfully");
-
+        EditEndLabel:
+            ConsoleColor.Green.WriteConsole("Edit success");
+            _groupService.Edit(id, name, capacity);
         }
 
         public void GetById()
         {
-            Print: Console.WriteLine("Enter Id for print the group");
+        Print: Console.WriteLine("Enter Id for print the group");
             string idStr = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(idStr))
             {
@@ -163,7 +165,8 @@ namespace ConsoleProject.Controllers
             {
                 ConsoleColor.Red.WriteConsole("Format is wrong");
                 goto Print;
-            }else if (id <= 0)
+            }
+            else if (id <= 0)
             {
                 ConsoleColor.Red.WriteConsole("Id cannot be negative");
                 goto Print;
@@ -175,33 +178,36 @@ namespace ConsoleProject.Controllers
                 goto Print;
             }
 
-            Console.WriteLine(group.Id+"-"+ group.Name+" "+ group.Capacity);
+            Console.WriteLine(group.Id + "-" + group.Name + " " + group.Capacity);
         }
-
         public void GetAll()
         {
             Console.WriteLine("Group information");
             var res = _groupService.GetAll();
-            foreach(var item in res)
+            foreach (var item in res)
             {
-                Console.WriteLine(item.Id+"-"+item.Name+"-"+item.Capacity);
+                Console.WriteLine(item.Id + "-" + item.Name + "-" + item.Capacity);
             }
         }
-
         public void Search()
         {
             Print: Console.WriteLine("Please enter search text");
             string text = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(text))
             {
-                ConsoleColor.Red.WriteConsole("Can not be empity");
+                ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Print;
             }
             var result = _groupService.Search(text);
+            if(text is null)
+            {
+                ConsoleColor.Red.WriteConsole("Data not found");
+                goto Print;
+            }
 
             foreach (var item in result)
             {
-                Console.WriteLine(item.Id+"-"+item.Name+" "+item.Capacity);
+                Console.WriteLine(item.Id + "-" + item.Name + " " + item.Capacity);
             }
         }
 
@@ -214,12 +220,12 @@ namespace ConsoleProject.Controllers
                 ConsoleColor.Red.WriteConsole("Can not be empty");
                 goto Searchtext;
             }
-            if (searchText != "asc"  && searchText != "desc")
+            if (searchText != "asc" && searchText != "desc")
             {
                 ConsoleColor.Red.WriteConsole("Text in wrong please check and enter again");
-                goto Searchtext;
+                return;
             }
-            var res =_groupService.Sorting(searchText);
+            var res = _groupService.Sorting(searchText);
             foreach (var item in res)
             {
                 Console.WriteLine(item.Id + "-" + item.Name + " " + item.Capacity);

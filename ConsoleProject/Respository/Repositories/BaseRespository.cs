@@ -23,11 +23,6 @@ namespace Respository.Repositories
             AppDbContext<T>.Datas.Remove(entity);
         }
 
-        public void Edit(T entity)
-        {
-            throw null;
-        }
-
         public List<T> GetAll()
         {
             return AppDbContext<T>.Datas.ToList();

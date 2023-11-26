@@ -1,96 +1,86 @@
 ﻿
-
-
-
 using ConsoleProject.Controllers;
 using Domain.Models;
+using Service.Enums;
+using Service.Helpers.Extensions;
+using System.Numerics;
+using System;
 
 UserController userController = new UserController();
 GroupController groupController = new GroupController();
 StudentController studentController = new StudentController();
 
-while (true)
+while (!true)
 {
-	string inte = Console.ReadLine();
+    Back: Console.WriteLine("Choose one option : \n1-Register  \n2-Login ");
+    string operationStr = Console.ReadLine();
+    bool isFormatOperation = int.TryParse(operationStr, out int oparation);
 
-	switch (inte)
-	{
-		case "1":
-			groupController.Create();
-			break;
-		case "2":
-			groupController.Delete();
-			break;
-		case "3":
-			groupController.GetById();
-			break;
-		case "4":
-			groupController.GetAll();
-			break;
-		case "5":
-			groupController.Search();
-			break;
-		case "6":
-			groupController.Sorting();
-			break;
-		case "7":
-			groupController.Edit();
-			break;
-
-	}
+    switch (oparation)
+    {
+        case (int)UserOperationType.Register:
+            userController.Register();
+            break;
+        case (int)UserOperationType.Login:
+            bool isLoggedIn = userController.Login();
+            if (isLoggedIn)
+            {
+                goto Next;
+            }
+            break;
+        default:
+            ConsoleColor.Red.WriteConsole("Invalid operation , enter again operation");
+            break;
+    }
 }
 
+Next: ConsoleColor.DarkBlue.WriteConsole("Welcome our application");
+
+while (true)
+{
+    Menu();
+    Console.WriteLine("Enter one option");
+    Operation: string opStr = Console.ReadLine();
+    bool IsCorrectFormatOperation = int .TryParse(opStr, out int oparation);
+    switch (oparation)
+    {
+        case (int)OperationTypes.GroupCreate:
+            groupController.Create(); break;
+        case (int)OperationTypes.GroupDelete:
+            groupController.Delete(); break;
+        case (int)OperationTypes.GroupEdit:
+            groupController.Edit(); break;
+        case (int)OperationTypes.GroupGetById:
+            groupController.GetById(); break;
+        case (int)OperationTypes.GroupGetAll:
+            groupController.GetAll(); break;
+        case (int)OperationTypes.GroupSearch:
+            groupController.Search(); break;
+        case (int)OperationTypes.GroupSorting:
+            groupController.Sorting(); break;
+        case (int)OperationTypes.StudentCreate:
+            studentController.Create(); break;
+        case (int)OperationTypes.StudentDelete:
+            studentController.Delete(); break;
+        case (int)OperationTypes.StudentEdit:
+            studentController.Edit(); break;
+        case (int)OperationTypes.StudentGetById:
+            studentController.GetById();break;
+        case (int)OperationTypes.StudentGetAll:
+            studentController.GetAll(); break;
+        case (int)OperationTypes.StudentFilter:
+            studentController.Filter(); break;
+        case (int)OperationTypes.StudentSearch:
+            studentController.Search(); break;
+        default:
+            ConsoleColor.Red.WriteConsole("Invalid operation , please enter again");
+            goto Operation;
 
 
-
-
-//while (true)
-//{
-//	string inte = Console.ReadLine();
-
-//	switch (inte)
-//	{
-//		case "1":
-//			studentController.Create();
-//			break;
-//		case "2":
-//			studentController.Delete();
-//			break;
-//		case "3":
-//			break;
-//		case "4":
-//            studentController.GetById();
-//            break;
-//		case "5":
-//			studentController.GetAll();
-//			break;
-//		case "6":
-//			studentController.Search();
-//			break;
-//		case "7":
-//			studentController.Filter();
-//			break;
-
-//	}
-//}
-
-//using System.Text.RegularExpressions;
-
-//Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-
-//bool result  = regex.IsMatch("hello@gmail.com");
-//Console.WriteLine(  result);
-
-
-//using System.Text.RegularExpressions;
-
-//Regex regex = new Regex(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}");
-
-//bool result = regex.IsMatch("0559782212");
-//Console.WriteLine(result);
-
-
-//while (true)
-//{
-//    userController.Register();
-//}
+    }
+}
+static void Menu()
+{
+    ConsoleColor.Cyan.WriteConsole("Please select one option: Group operations: 1 - Create, 2 - Delete, 3 - Edit, 4 - GetById, 5 - GetAll, 6 - Search, 7 - Sorting");
+    ConsoleColor.Cyan.WriteConsole(" Student operations: 8 - Create, 9 - Delete, 10 - Edit, 11 - GetById, 12 - GetAll,13 - Filter, 14 - Search");
+}

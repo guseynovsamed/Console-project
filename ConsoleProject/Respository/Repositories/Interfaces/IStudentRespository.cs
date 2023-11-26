@@ -11,5 +11,6 @@ namespace Respository.Repositories.Interfaces
     {
         List<Student> Search(string searchText);
         List<Student> Filter(string text);
+        Student Edit( int id , string fullName, string address, byte age , string phone , int groupId);
     }
 }
